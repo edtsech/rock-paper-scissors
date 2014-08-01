@@ -13,20 +13,15 @@
   [players]
   (letfn [(extract [[player figure]]
             [figure [player figure]])]
-    (->> players
-         reverse
-         (map extract)
-         (into {}))))
+    (into {} (map extract (reverse players)))))
 
-(defn winner [& players]
-  (let [players-map (normalize-input players)]
-    (or (-> players-map
-            keys
-            sort
-            rules
-            players-map)
+(defn winner
+  [& players]
+  (let [players-map (normalize-input players)
+        combination (sort (keys players-map))
+        winning-figure (rules combination)]
+    (or (players-map winning-figure)
         (throw "RockPaperScissors"))))
-
 
 
 
